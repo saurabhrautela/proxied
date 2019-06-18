@@ -3,9 +3,13 @@ version: '3.5'
 services:
   app:
     build: .
+    environment:
+      - http_proxy=http://tinyproxy:8888
+      - https_proxy=http://tinyproxy:8888
     restart: unless-stopped
     networks:
       - reverse_proxy
+      - forward_proxy
 
   reverseproxy:
     image: nginx:1.15-alpine
@@ -20,7 +24,23 @@ services:
      - reverse_proxy
      - internet
 
+  tinyproxy:
+    build: ./tools/tinyproxy/
+    ports:
+      - 9000:9000
+    depends_on:
+      - app
+    restart: unless-stopped
+    networks:
+      - forward_proxy
+      - internet
+
 networks:
   reverse_proxy:
     internal: true
+  forward_proxy:
+    internal: true
   internet:
+
+
+# vim: set tabstop=2:
