@@ -15,6 +15,8 @@ RUN  pip install -r requirements.txt
 
 COPY ./dev /app/dev
 
+COPY ./tools/tinyproxy/filter /app/tools/tinyproxy/filter
+
 ENTRYPOINT [ "gunicorn", "--workers=2", "--bind=0.0.0.0:5000", "app:app", "--log-level=info", "--access-logfile=-", "--error-logfile=-"]
 
 EXPOSE 5000

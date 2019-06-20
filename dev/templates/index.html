@@ -1,0 +1,31 @@
+<!doctype html>
+<head xmlns="http://www.w3.org/1999/html">
+    <title>Proxied</title>
+    <style>
+        .input_url {
+            margin: 10px 10px 10px 10px;
+        }
+    </style>
+</head>
+<body>
+
+<form action="" method="post" class="input_url">
+    <div class="input text">
+        {{ form.url.label }} {{ form.url }}
+        <input type="submit" value="Submit">
+    </div>
+</form>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li>{{ message[1] }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+
+{{ website|safe }}
+
+</body>

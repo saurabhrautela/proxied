@@ -1,26 +1,39 @@
 import requests
-from flask import Flask
+from flask import Flask, request, render_template, flash
 from requests.exceptions import ConnectionError
+from form import UrlForm
 
 app = Flask(__name__)
+app.secret_key = r"D.[WBYn@=3d9fj2j$.J9V%Nh~ZMtd,MZmz)drfFeZ<Ff{m\XmVvLm7hY%"
 
 
-@app.route("/")
-def get_arch_linux_homepage():
-    try:
-        response = requests.request("GET", url="https://archlinux.org/")
-    except ConnectionError:
-        return "Not able to access the Internet.", 504
-    return response.text
+@app.route("/", methods=["GET", "POST"])
+def get_web_page():
+    """Get home page of Arch Linux website."""
+    form = UrlForm()
+
+    if request.method == "POST":
+        url = request.form["url"]
+
+        try:
+            response = requests.request("GET", url=url)
+        except ConnectionError:
+            flash("Not able to access the Internet.")
+        except requests.exceptions.MissingSchema as e:
+            flash(str(e.args))
+        else:
+            return render_template("index.html", form=form, website=response.text)
+
+    return render_template("index.html", form=form)
 
 
-@app.route("/restricted")
-def get_facebook_homepage():
-    try:
-        response = requests.request("GET", url="https://facebook.com")
-    except ConnectionError:
-        return "Not able to access the restricted URL.", 504
-    return response.text
+@app.route("/allowed")
+def get_list_of_allowed_websites():
+    """Get list of all the websites the application is allowed to access."""
+    with open("../tools/tinyproxy/filter", "r") as filter_file:
+        websites = filter_file.read().split("\n")
+
+    return str(websites)
 
 
 @app.route("/health")

@@ -1,3 +1,4 @@
 *
 !requirements.txt
-!dev/app.py
+!dev
+!tools/tinyproxy/filter
