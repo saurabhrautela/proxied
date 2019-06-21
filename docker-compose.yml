@@ -26,8 +26,6 @@ services:
 
   tinyproxy:
     build: ./tools/tinyproxy/
-    ports:
-      - 9000:9000
     depends_on:
       - app
     restart: unless-stopped

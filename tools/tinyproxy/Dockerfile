@@ -9,3 +9,5 @@ COPY ./tinyproxy.conf /etc/tinyproxy/tinyproxy.conf
 COPY ./filter /etc/tinyproxy/filter
 
 CMD ["tinyproxy", "-d"]
+
+EXPOSE 8888

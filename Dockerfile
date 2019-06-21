@@ -1,7 +1,7 @@
 FROM python:3.6-slim
 
 LABEL \
-Name=demo \
+Name=proxied \
 Version=X0.1
 
 ENV PYTHONUNBUFFERED=1

@@ -33,7 +33,7 @@ def get_list_of_allowed_websites():
     with open("../tools/tinyproxy/filter", "r") as filter_file:
         websites = filter_file.read().split("\n")
 
-    return str(websites)
+    return str(websites[:-1])
 
 
 @app.route("/health")
