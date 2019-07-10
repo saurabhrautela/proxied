@@ -9,7 +9,7 @@ app.secret_key = r"D.[WBYn@=3d9fj2j$.J9V%Nh~ZMtd,MZmz)drfFeZ<Ff{m\XmVvLm7hY%"
 
 @app.route("/", methods=["GET", "POST"])
 def get_web_page():
-    """Get home page of Arch Linux website."""
+    """Renders index page and shows home page of entered URL."""
     form = UrlForm()
 
     if request.method == "POST":
@@ -29,7 +29,7 @@ def get_web_page():
 
 @app.route("/allowed")
 def get_list_of_allowed_websites():
-    """Get list of all the websites the application is allowed to access."""
+    """Fetches list of all the websites the application is allowed to access."""
     with open("../tools/tinyproxy/filter", "r") as filter_file:
         websites = filter_file.read().split("\n")
 
@@ -38,6 +38,7 @@ def get_list_of_allowed_websites():
 
 @app.route("/health")
 def health():
+    """Returns 200 status code. Used to check if application is reachable."""
     return "OK", 200
 
 
